@@ -20,7 +20,7 @@
 
 	<main>
 		<div id="contenu" class="conteneur">
-			<h2>Entête de page</h2>
+			<h2>Entête </h2>
 
 			<?php
 			$requeteSQL="Select titre from listes";
