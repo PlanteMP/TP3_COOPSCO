@@ -15,7 +15,7 @@ if ($blnLocal) {
     $strHost = 'localhost';
     $strBD='TP3_COOPSCO';
     $strUser = 'rpni1_alaide';
-    $strPassword= 'slayalaide';
+    $strPassword= 'slay_alaide';
     error_reporting(E_ALL);
 } else {
     //en ligne

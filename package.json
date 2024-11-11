@@ -11,9 +11,9 @@
     "festival",
     "OFF"
   ],
-  "author": "Votre nom ici!",
+  "author": "Marie-Pierre Plante & Laurie Roy",
   "license": "ISC",
-  "devDependencies": {
-    "normalize": "^0.3.1"
+  "dependencies": {
+    "normalize.scss": "^0.1.0"
   }
 }

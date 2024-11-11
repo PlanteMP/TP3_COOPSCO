@@ -27,30 +27,29 @@
 /****** Librairies ****************************/
 
 /** Normalize **/
-@import '../../../node_modules/normalize.scss/normalize.scss';
-
+@import "../../../node_modules/normalize.scss/normalize.scss";
 
 /**** UTILITAIRES ****************************/
 
 /** Variables **/
-@import 'utilitaires/variables';
+@import "utilitaires/variables";
 
 /** Mixins **/
-@import 'utilitaires/mixins';
+@import "utilitaires/mixins";
 
 /****** BASE ********************************/
 
 /** Typographie **/
-@import 'base/typo';
+@import "base/typo";
 
 /** Hyperliens **/
-@import 'base/hyperlien';
+@import "base/hyperlien";
 
 /** Boutons **/
-@import 'base/bouton';
+@import "base/bouton";
 
 /** Grille 12 colones **/
-@import 'base/grille';
+@import "base/grille";
 
 /****** MODULES *****************************/
 
