@@ -1,0 +1,100 @@
+/**
+* @author Prenom Nom courriel
+*/
+
+/******** Typographie *********/
+
+// Fonction pour convertir une valeur de font-size en pixels à son équivalent rem
+@function calculateRem($size) {
+  $remSize: calc($size / 10px);
+  @return #{$remSize}rem;
+}
+
+// Mixin qui inclus la solution de repli en pixel suivi par la valeur calculée en rem
+@mixin fontSize($size) {
+  font-size: $size;
+  font-size: calculateRem($size);
+}
+//Pour utiliser la fonction : @include fontSize(15px);
+
+
+@font-face {
+  font-family: Roboto, sans-serif;
+  src: 	url('../fonts/Roboto-Regular.ttc') format('truetype');
+}
+
+$fontePrimaire : Roboto, sans-serif;
+$fonteSecondaire : Arial, sans-serif;
+
+
+/**** Typographie responsive ****/
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  font-family: $fonteSecondaire;
+  @include fontSize(16px); /* 16px pour toutes les largeurs d'écran */
+  line-height: 1.375; /* facteur multiplicateur de la taille de la police 1.375x16=22 */
+  @media (min-width: 601px) {
+
+  }
+}
+
+h1,
+.titreNiveau1,
+h2,
+.titreNiveau2,
+h3,
+.titreNiveau3 {
+  font-family: $fontePrimaire;
+  font-weight: 500;
+}
+
+h1,
+.titreNiveau1 {
+  @include fontSize(28px);
+  margin: 0;
+  &--desktop {
+    @include fontSize(48px);
+    padding-bottom: 15px;
+    position: relative;
+    &:after {
+      background-color: $bleuMoyen;
+      content: "";
+      display: inline-block;
+      width: 150px;
+      height: 8px;
+      position: absolute;
+      left: 0;
+      bottom: 0;
+    }
+  }
+}
+
+h2,
+.titreNiveau2{
+  @include fontSize(20px);
+  text-transform: uppercase;
+  &--desktop {
+    @include fontSize(28px);
+  }
+}
+
+h3,
+.titreNiveau3 {
+  @include fontSize(18px);
+  &--desktop {
+    @include fontSize(22px);
+  }
+}
+
+.texte {
+  font-family: $fonteSecondaire;
+  @include fontSize(16px);
+  line-height: 1.375;
+  &--desktop {
+    line-height: 1.5;
+  }
+}

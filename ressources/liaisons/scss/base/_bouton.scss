@@ -1,0 +1,37 @@
+/**
+* @author Prenom Nom courriel
+*/
+@mixin boutonCommun {
+  text-decoration: none;
+  border-radius: 18px;
+  padding: 0.5em 1em;
+}
+
+.bouton {
+  @include boutonCommun;
+  background-color: $vertLime;
+  color: black;
+  &:after {
+    //content: "»";
+    margin-left: 0.4em;
+  }
+  &:hover {
+    background-color: transparentize($vertLime, 0.25);
+  }
+  &:active {
+    background-color: transparentize($vertLime, 0.5);
+  }
+  &--inverse {
+    @include boutonCommun();
+    background-color: white;
+    border: 2px solid black;
+    &:hover {
+      border-color: transparentize($vertLime, 0.25);
+    }
+    &:active {
+      border-color: transparentize($vertLime, 0.5);
+    }
+  }
+}
+
+

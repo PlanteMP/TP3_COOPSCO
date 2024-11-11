@@ -1,0 +1,23 @@
+/**
+* @author Prenom Nom courriel
+* @todo Compléter selon l'énoncé de l'exercice
+*/
+$hyperlien: #2678B5;
+$hyperlien_actif: #012d61;
+
+.hyperlien{
+  color: $hyperlien;
+  font-size: 48px;
+  text-decoration: none;
+  &:visited {
+    color: darken($hyperlien, 5%);
+  }
+  &:hover {
+    color: darken($hyperlien, 20%);
+    text-decoration: underline;
+  }
+  &:active {
+    color: $hyperlien_actif;
+    text-decoration: underline;
+  }
+}
