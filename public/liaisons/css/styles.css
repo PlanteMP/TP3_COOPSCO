@@ -659,108 +659,15 @@ h3--desktop,
   }
 }
 /****** MODULES *****************************/
-/**
- * @author Prénom Nom courriel
- * @todo ADAPTER ce fichier selon le projet
-**/
-/**
- * TABLE DES MATIÈRES
- * Palette de couleurs
- * Base commune
- * - Bouton du menu
- * - Liste du menu
- * - Liens du menu
- * Si le javascript est activé
- */
-/****** Palette de couleurs *******/
-/*
-Couleur de fond : #d9d7d0
-Effet de survol : #f5ae09
-Effet actif : #f4d07c
-*/
-/****** Base commune *******/
-/* Bouton du menu */
-.menu__controle {
-  background-color: #68a8e8;
-  border: none;
-  padding: 10px;
-  min-width: 40px;
-  width: 80px;
-}
-@media (min-width: 601px) {
-  .menu__controle {
-    display: none;
-  }
-}
-.menu__controle:hover, .menu__controle:active {
-  background-color: #358ae0;
-}
-.menu__controle:focus {
-  /**
-   * Les styles du navigateur utilisent la règle outline pour définir
-   * l'état focus des éléments interactifs.
-   * Vous pouvez redéfinir cette règle ou remplacer par d'autres styles
-   * mieux adaptés à la direction visuelle.
-   * MAIS il faut souligner l'état focus et le tester au clavier.
-   */
-  outline-offset: -5px;
-  outline: #012d61 auto 5px;
-}
-.menu__liste {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  max-height: none;
-}
-@media (min-width: 601px) {
-  .menu__listeItem {
-    display: inline-block;
-  }
-}
-.menu__lien {
-  border: 1px solid #012d61;
-  background-color: #68a8e8;
-  display: block;
-  padding: 5px 10px;
-}
-.menu__lien:link, .menu__lien:visited {
-  text-decoration: none;
-  color: inherit;
-}
-.menu__lien:hover, .menu__lien:active {
-  background-color: #358ae0;
-}
-.menu__lien:focus {
-  /*outline: none;
-  border-left: 5px solid #f5ae09;*/
-  outline-offset: -5px;
-  outline: #f5ae09 auto 5px;
-}
-.menu__lien--actif {
-  border-left: 5px solid #f4d07c;
-}
-
-/* Si le javascript est activé */
-/* Pour des raisons d'accessibilité, on ne cache le menu mobile
- * que si Javascript est activé. De cette façon, s'il est désactivé,
- * le menu restera tout de même visible à l'utilisateur.
- */
-.js .menu__liste {
-  max-height: 100vh;
-  overflow: hidden;
-  transition: max-height 0.5s;
-}
-
-.js .menu--ferme .menu__liste {
-  max-height: 0;
-}
-@media (min-width: 601px) {
-  .js .menu--ferme .menu__liste {
-    max-height: none;
-  }
-}
-
 /****** LAYOUT *****************************/
+.accueil__titre {
+  padding: 20px;
+}
+.accueil__layout {
+  display: flex;
+  flex-direction: row;
+}
+
 .entete {
   background-color: #358ae0;
 }

@@ -23,12 +23,12 @@
 			<h2>Entête </h2>
 
 			<?php
-			$requeteSQL="Select titre from listes";
+			$requeteSQL="Select nom from listes";
 			$objStat=$objPdo -> prepare($requeteSQL);
 			$objStat -> execute();
 			$arrListes=$objStat -> fetchAll();
 			forEach($arrListes as $arrListe){
-				echo $arrListe["titre"];?><BR>
+				echo $arrListe["nom"];?><BR>
 			<?php } ?>
 
 			<section>
