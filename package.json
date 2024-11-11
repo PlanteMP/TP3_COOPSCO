@@ -13,4 +13,7 @@
   ],
   "author": "Votre nom ici!",
   "license": "ISC",
+  "devDependencies": {
+    "normalize": "^0.3.1"
+  }
 }
