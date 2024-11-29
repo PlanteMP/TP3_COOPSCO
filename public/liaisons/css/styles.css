@@ -668,11 +668,146 @@ h3--desktop,
   flex-direction: row;
 }
 
-.entete {
-  background-color: #358ae0;
+.banner__entete {
+  background-color: #2A2929;
+  padding: 2rem;
 }
+.banner__entete .banner__contenu {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+.banner__entete .banner__contenu .banner__logo img {
+  width: 50px;
+  height: 50px;
+}
+.banner__entete .banner__contenu .banner__titre {
+  color: white;
+  font-family: "Londrina Shadow", sans-serif;
+  font-size: 40px;
+  width: 100%;
+  margin-left: 5px;
+}
+.banner__entete .banner__actions {
+  display: flex;
+  gap: 1rem;
+}
+.banner__entete .banner__actions .banner__recherche {
+  display: flex;
+  align-items: center;
+}
+.banner__entete .banner__actions .banner__input {
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-right: none;
+  border-radius: 20px 0 0 20px;
+  outline: none;
+  flex: 1;
+  width: 130px;
+}
+.banner__entete .banner__actions .banner__bouton__loupe {
+  border: 1.5px solid #ccc;
+  border-left: none;
+  padding: 6px;
+  padding-right: 10px;
+  border-radius: 0 20px 20px 0;
+  cursor: pointer;
+}
+.banner__entete .banner__actions .banner__icon img {
+  width: 20px;
+  height: 20px;
+}
+.banner__entete .banner__actions .banner__bouton__utilisateur {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background-color: white;
+  border: none;
+  border-radius: 20px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+.banner__entete .banner__actions .banner__bouton__utilisateur:hover {
+  background-color: #e6e6e6;
+}
+.banner__entete .banner__actions .banner__bouton__utilisateur:active {
+  background-color: #cccccc;
+}
+.banner__entete .banner__actions .banner__bouton__utilisateur .banner__icon {
+  font-size: 1.2rem;
+}
+
+@media (max-width: 768px) {
+  .banner__contenu {
+    flex-direction: column;
+    align-items: center;
+  }
+  .banner__contenu .banner__titre {
+    margin: 1rem 0;
+    border-bottom: 0.5px solid white;
+    width: 100%;
+    text-align: center;
+    padding-bottom: 10px;
+  }
+  .banner__contenu .banner__actions {
+    flex-direction: row;
+    gap: 0.5rem;
+    padding-top: 5px;
+  }
+}
+.menuCollant {
+  background-color: #2A2929;
+  padding: 5px;
+  margin-top: 5px;
+}
+
+.menuCollant__liste {
+  display: inline-block;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.menuCollant__listeItem {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.menuCollant__lien {
+  background-color: #535252;
+  color: white;
+  display: inline-block;
+  font-size: 1.5rem;
+  padding: 10px 20px;
+  text-decoration: none;
+}
+
+.menuCollant__lien:hover {
+  background-color: #e6e6e6;
+}
+
+/* Si le menu est fixe */
+.menuCollant--fixe .menuCollant {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+
+.menuCollant--fixe .menuCollant__lien {
+  font-size: 1rem;
+}
+
 .piedDePage {
-  background-color: #68a8e8;
+  padding: 2rem;
+  background-color: #2A2929;
+}
+.piedDePage__copyRights {
+  color: white;
+  text-align: center;
 }
 
 /*# sourceMappingURL=styles.css.map */
