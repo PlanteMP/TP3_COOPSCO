@@ -25,14 +25,14 @@
 
         <div class="banner__actions">
             <button class="banner__bouton__utilisateur">
-                <span class="banner__icon"><img src=<?php echo "." . $niveau . "ressources/Images/svg/utilisateur.svg" ?> alt="Utilisateur">
+                <span class="banner__icon"><img src="<?php echo "../" . $niveau;?>ressources/Images/svg/utilisateur.svg" alt="Utilisateur">
                 </span>
             </button>
 
             <div class="banner__recherche">
                 <input type="text" placeholder="Rechercher" name="rechercher" class="banner__input">
                 <button class="banner__bouton__loupe">
-                    <span class="banner__icon"><img src="<?php echo $niveau;?>ressources/Images/svg/rechercher.svg" alt="loupe"></span>
+                    <span class="banner__icon"><img src="<?php echo "../" . $niveau;?>ressources/Images/svg/rechercher.svg" alt="loupe"></span>
                 </button>
             </div>
         </div>
