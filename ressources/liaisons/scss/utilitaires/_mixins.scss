@@ -18,21 +18,23 @@
 
 /** Box sizing **/
 @mixin border-box-sizing {
-    html {
-        box-sizing: border-box;
-    }
-    *, *:before, *:after {
-        box-sizing: inherit;
-    }
+  html {
+    box-sizing: border-box;
+  }
+  *,
+  *:before,
+  *:after {
+    box-sizing: inherit;
+  }
 }
 
 /* Clearfix */
 @mixin clearfix {
-    &:after {
-        content: " ";
-        display: table;
-        clear: both;
-    }
+  &:after {
+    content: " ";
+    display: table;
+    clear: both;
+  }
 }
 
 /********* Accessibilité *********/
@@ -40,32 +42,29 @@
 // Hide only visually, but have it available for screenreaders:
 // http://snook.ca/archives/html_and_css/hiding-content-for-accessibility
 @mixin visuallyhidden {
-    border: 0;
-    clip: rect(0 0 0 0);
-    height: 1px;
-    margin: -1px;
-    overflow: hidden;
-    padding: 0;
-    position: absolute;
-    width: 1px;
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
 
-    // Extends the .visuallyhidden class to allow the element to be focusable
-    // when navigated to via the keyboard: https://www.drupal.org/node/897638
-    &.focusable:active,
-    &.focusable:focus {
-        clip: auto;
-        height: auto;
-        margin: 0;
-        overflow: visible;
-        position: static;
-        width: auto;
-    }
+  // Extends the .visuallyhidden class to allow the element to be focusable
+  // when navigated to via the keyboard: https://www.drupal.org/node/897638
+  &.focusable:active,
+  &.focusable:focus {
+    clip: auto;
+    height: auto;
+    margin: 0;
+    overflow: visible;
+    position: static;
+    width: auto;
+  }
 }
 
 .visuallyhidden,
 .screen-reader-only {
-    @include visuallyhidden;
+  @include visuallyhidden;
 }
-
-
-

@@ -1,11 +1,11 @@
-$fondPiedDePage: #2A2929;
+$fondPiedDePage: #2a2929;
 $copyRightsCouleur: white;
 
-.piedDePage{
+.piedDePage {
   padding: 2rem;
   background-color: $fondPiedDePage;
 
-  &__copyRights{
+  &__copyRights {
     color: $copyRightsCouleur;
     text-align: center;
   }

@@ -17,15 +17,13 @@
 }
 //Pour utiliser la fonction : @include fontSize(15px);
 
-
 @font-face {
   font-family: Roboto, sans-serif;
-  src: 	url('../fonts/Roboto-Regular.ttc') format('truetype');
+  src: url("../fonts/Roboto-Regular.ttc") format("truetype");
 }
 
-$fontePrimaire : Roboto, sans-serif;
-$fonteSecondaire : Arial, sans-serif;
-
+$fontePrimaire: Roboto, sans-serif;
+$fonteSecondaire: Arial, sans-serif;
 
 /**** Typographie responsive ****/
 
@@ -38,7 +36,6 @@ body {
   @include fontSize(16px); /* 16px pour toutes les largeurs d'écran */
   line-height: 1.375; /* facteur multiplicateur de la taille de la police 1.375x16=22 */
   @media (min-width: 601px) {
-
   }
 }
 
@@ -74,7 +71,7 @@ h1,
 }
 
 h2,
-.titreNiveau2{
+.titreNiveau2 {
   @include fontSize(20px);
   text-transform: uppercase;
   &--desktop {

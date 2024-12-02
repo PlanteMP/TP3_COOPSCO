@@ -18,14 +18,14 @@
     <header role="banner" class="banner__entete">
     <div class="banner__contenu">
         <div class="banner__logo">
-            <img src="<?php echo $niveau;?>ressources/Images/svg/logo.svg" alt="Logo">
+            <img src="<?php echo "../" . $niveau;?>ressources/Images/svg/logo.svg" alt="Logo">
         </div>
 
         <h1 class="banner__titre">N'oublie pas le Tofu</h1>
 
         <div class="banner__actions">
             <button class="banner__bouton__utilisateur">
-                <span class="banner__icon"><img src="<?php echo $niveau;?>ressources/Images/svg/utilisateur.svg" alt="Utilisateur">
+                <span class="banner__icon"><img src=<?php echo "." . $niveau . "ressources/Images/svg/utilisateur.svg" ?> alt="Utilisateur">
                 </span>
             </button>
 
@@ -45,9 +45,9 @@
             <nav class="menuCollant">
                  <div class="conteneur">
                      <ul class="menuCollant__liste">
-                        <li class="menuCollant__listeItem"><a class="menuCollant__lien" href="#">Listes</a></li>
-                        <li class="menuCollant__listeItem"><a class="menuCollant__lien" href="../public/listes/ajouter.php">Ajouter une liste</a></li>
-                        <li class="menuCollant__listeItem"><a class="menuCollant__lien" href="../public/listes/editer.php">Éditer une liste</a></li>
+                        <li class="menuCollant__listeItem"><a class="menuCollant__lien" href="<?php echo $niveau ?>index.php">Listes</a></li>
+                        <li class="menuCollant__listeItem"><a class="menuCollant__lien"href="<?php echo $niveau ?>listes/ajouter.php">Ajouter une liste</a></li>
+                        <li class="menuCollant__listeItem"><a class="menuCollant__lien" href="<?php echo $niveau ?>listes/modifier.php">Éditer une liste</a></li>
                      </ul>
                 </div>
             </nav>
