@@ -74,13 +74,13 @@ if (isset($_GET['liste_id'])) {
 		</div>
 		<ul class="urgent__list">
 			<?php
-			// Définir la locale pour les dates en français canadien
+			
 			$formatter = new IntlDateFormatter('fr_CA', IntlDateFormatter::FULL, IntlDateFormatter::NONE, 'America/Toronto', IntlDateFormatter::GREGORIAN, 'd MMMM yyyy');
 			for ($i = 0; $i < min(3, count($arrItemsUrgentEcheance)); $i++) {
 				$item = $arrItemsUrgentEcheance[$i];
-				// Convertir la date en un format lisible
+				
 				$date = new DateTime($item['echeance']);
-				$formattedDate = $formatter->format($date); // Formater la date en français canadien
+				$formattedDate = $formatter->format($date); 
 				?>
 				<li class="urgent__item" style="border-left: 8px solid #<?php echo $item['hexadecimal']; ?>;">
 					<span class="urgent__item-name"><p><?php echo $item['nom_item']; ?></p></span>
