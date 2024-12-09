@@ -910,13 +910,13 @@ h3--desktop,
   background-color: #00ff00;
 }
 
-.bang {
+.navigation {
   display: flex;
   justify-content: center;
   margin: 150px auto;
 }
 @media (max-width: 765px) {
-  .bang {
+  .navigation {
     flex-direction: column;
   }
 }
