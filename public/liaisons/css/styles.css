@@ -504,7 +504,7 @@ h1--desktop,
 }
 h1--desktop:after,
 .titreNiveau1--desktop:after {
-  background-color: #358ae0;
+  background-color: #93b6c3;
   content: "";
   display: inline-block;
   width: 150px;
@@ -631,6 +631,7 @@ h3--desktop,
   width: 298px;
   border: 1px solid black;
   border-radius: 15px;
+  background-color: #f7f6f6;
 }
 .article__item__header {
   display: flex;
@@ -842,7 +843,7 @@ h3--desktop,
   padding: 0;
 }
 
-.color-swatch {
+.color-click {
   width: 50px;
   height: 50px;
 }
@@ -862,13 +863,13 @@ h3--desktop,
   display: none; /* Cache le cercle */
 }
 
-.color-option .color-swatch {
+.color-option .color-click {
   cursor: pointer; /* Change le curseur pour indiquer que c'est cliquable */
   border: 2px solid transparent; /* Ajoute une bordure pour le focus */
   transition: border 0.3s ease;
 }
 
-.color-option input[type=radio]:checked + .color-swatch {
+.color-option input[type=radio]:checked + .color-click {
   border: 2px solid #000; /* Bordure visible pour l'élément sélectionné */
 }
 
@@ -880,14 +881,15 @@ h3--desktop,
   margin-bottom: 20px;
   flex-direction: column;
   text-align: center;
-  border: 1px solid #000;
+  border: 2px solid #000;
   border-radius: 20px;
+  background-color: #f7f6f6;
 }
 .section__couleur__titre {
   font-size: 2.5rem;
   font-weight: bold;
   padding: 20px;
-  border-bottom: 1px solid #000;
+  border-bottom: 2px solid #000;
 }
 
 .form-container__titre {
@@ -902,7 +904,7 @@ h3--desktop,
   margin-bottom: 20px;
   padding: 10px 20px;
   border-radius: 10px;
-  background-color: aquamarine;
+  background-color: #b8e2f3;
   border: none;
   cursor: pointer;
   font-size: 1.5rem;
@@ -911,7 +913,7 @@ h3--desktop,
   margin-left: auto;
 }
 .form-container__button:hover {
-  background-color: #00ff00;
+  background-color: #93b6c3;
 }
 
 .navigation {
@@ -1034,7 +1036,7 @@ h3--desktop,
 
 .meslistes {
   border: 1px solid black;
-  background-color: beige;
+  background-color: #f7f6f6;
   border-radius: 15px;
   margin: 10px;
   padding: 10px;
@@ -1042,7 +1044,6 @@ h3--desktop,
 }
 .meslistes__item {
   display: flex;
-  justify-content: space-between;
   align-items: center;
   gap: 10px;
 }
@@ -1118,7 +1119,7 @@ h3--desktop,
   padding: 10px;
   border-radius: 5px;
   border: 1px solid black;
-  background-color: rgb(155, 230, 248);
+  background-color: #b8e2f3;
   cursor: pointer;
 }
 .section__modifier__article__tache {
@@ -1151,13 +1152,13 @@ h3--desktop,
   padding: 10px;
   border-radius: 5px;
   border: 1px solid black;
-  background-color: rgb(83, 209, 209);
+  background-color: #b8e2f3;
   margin-top: 1rem;
   margin-left: auto;
   cursor: pointer;
 }
 .btn__modifier:hover {
-  background-color: rgb(159, 190, 197);
+  background-color: #b8e2f3;
   color: white;
 }
 
