@@ -1,11 +1,10 @@
 <?php
     // ***************** Fichier de gestion des items d'une liste ******************//
     /**
-     * @author TonNom
-     * @file liste/model.liste.php
+     * @author Laurie Roy
      * @brief Script de gestion des données liées aux items d'une liste.
-     * @details Ce script gère la création, la modification et l'affichage des items d'une liste spécifique.
-     * @version 1.0
+     * @details Ce script gère la l'ajout des items d'une liste spécifique.
+     * @version 2.0
      * @date 28 novembre 2024
      */
 
@@ -39,6 +38,15 @@
 
     // Opération : Création d'un item
     if ($operation === 'creer') {
+        // Valider les données
+        if (empty($itemDescription)) {
+            die("Erreur : La description de l'item est requise.");
+        }
+        if (empty($idListe)) {
+            die("Erreur : ID de la liste manquant.");
+        }
+    
+        // Insertion dans la base de données
         $sql = "INSERT INTO items (nom, echeance, est_complete, liste_id) 
                 VALUES (:nom, :echeance, :est_complete, :id_liste)";
         $stmt = $objPdo->prepare($sql);
@@ -47,9 +55,12 @@
         $stmt->bindParam(':est_complete', $isComplete);
         $stmt->bindParam(':id_liste', $idListe);
         $stmt->execute();
-        header("Location: " . $niveau . "pages/liste/index.php");
+    
+        // Redirection après succès
+        header("Location: afficher.php?id_liste=$idListe");
         exit;
     }
+    
 
     // Opération : Modification d'un item
     if ($operation === 'modifier') {
@@ -74,7 +85,44 @@ $objStat = $objPdo->prepare($requeteSQL);
 $objStat->execute();
 $arrListes = $objStat->fetchAll();
 ?>
+<?php 
+$requeteSQL = "
+    SELECT listes.nom, listes.id, couleurs.hexadecimal 
+    FROM listes
+    INNER JOIN couleurs ON listes.couleur_id = couleurs.id
+";
+$objStat = $objPdo->prepare($requeteSQL);
+$objStat->execute();
+$arrListes = $objStat->fetchAll();
 
+$strRequeteItemsUrgentEcheance = 'SELECT items.id as id_item,
+                            items.nom as nom_item,
+                            items.echeance,
+                            items.est_complete,
+                            items.liste_id,
+                            listes.nom as nom_liste,
+                            couleurs.hexadecimal
+                            FROM items
+                            INNER JOIN listes
+                            ON items.liste_id = listes.id
+                            INNER JOIN couleurs
+                            ON listes.couleur_id = couleurs.id
+                            WHERE items.echeance >= CURDATE()';
+$pdoResultatItemsUrgentEcheance = $objPdo->prepare($strRequeteItemsUrgentEcheance);
+$pdoResultatItemsUrgentEcheance->execute();
+$arrItemsUrgentEcheance = array();
+while ($ligne = $pdoResultatItemsUrgentEcheance->fetch()) {
+    $arrItemsUrgentEcheance[] = array(
+        'id_item' => $ligne['id_item'],
+        'nom_item' => $ligne['nom_item'],
+        'echeance' => $ligne['echeance'],
+        'est_complete' => $ligne['est_complete'],
+        'liste_id' => $ligne['liste_id'],
+        'nom_liste' => $ligne['nom_liste'],
+        'hexadecimal' => $ligne['hexadecimal']
+    );
+}
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -87,8 +135,32 @@ $arrListes = $objStat->fetchAll();
     <title>Gestion de Liste</title>
 </head>
 <body>
-
-        
+<?php include ($niveau . "liaisons/fragments/entete.inc.php");?>
+<main class="bang">
+<section class="meslistes">
+            <header class="meslistes__header">
+                <h2 class="meslistes__header__titre">Mes listes</h2>
+</header>
+            <ul class="meslistes__container">
+                <?php
+                // Définir la locale pour les dates en français canadien
+                $formatter = new IntlDateFormatter('fr_CA', IntlDateFormatter::FULL, IntlDateFormatter::NONE, 'America/Toronto', IntlDateFormatter::GREGORIAN, 'd MMMM yyyy');
+                for ($i = 0; $i < min(3, count($arrItemsUrgentEcheance)); $i++) {
+                    $item = $arrItemsUrgentEcheance[$i];
+                    // Convertir la date en un format lisible
+                    $date = new DateTime($item['echeance']);
+                    $formattedDate = $formatter->format($date); // Formater la date en français canadien
+                    ?>
+                    <li class="meslistes__item" style="border-left: 8px solid # list-style:none;<?php echo $item['hexadecimal']; ?>;">
+                    <span style="background-color: #<?php  echo $item['hexadecimal']; ?>;" class="meslistes__item__couleur"></span>
+                    <a href="<?php echo  $niveau; ?>items/afficher.php?id_liste=<?php  echo $item['liste_id'] ?>  ">
+                    <span class="meslistes__item__nom"><p><?php echo $item['nom_item']; ?></p></span>
+                </a>
+                      
+                    </li>
+                <?php } ?>
+            </ul>
+                </section>
             <section class="">
 <h2>Mes Listes</h2>
 <?php foreach ($arrListes as $liste): ?> 
@@ -100,13 +172,13 @@ $arrListes = $objStat->fetchAll();
         <header class="gestion__header">
             <h1>Gérer les Tâches</h1>
         </header>
-        <form class="gestion__form" action="<?php echo $niveau; ?>pages/item/index.php" method="get">
+        <form class="gestion__form" action="<?php echo $niveau; ?>items/index.php" method="get">
             <div class="form__group">
                 <label for="description">Tâche :</label>
                 <input type="text" name="description" id="description" value="">
             </div>
             <div class="form__group">
-                <label for="jour"></label>
+                <label for=""></label>
                 <select name="jour" id="jour">
                     <option value="0">Jour</option>
                     <?php for ($i = 1; $i <= 31; $i++) : ?>
@@ -135,5 +207,7 @@ $arrListes = $objStat->fetchAll();
             </div>
         </form>
     </section>
+    </main>
+    <?php include ($niveau . "liaisons/fragments/piedDePage.inc.php");?>
 </body>
 </html>

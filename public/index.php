@@ -113,7 +113,7 @@ if (isset($_GET['liste_id'])) {
 
 		<footer class="article__item__footer">
 			<div class="flex">
-				<a href="">
+				<a href="<?php echo $niveau; ?> items/afficher.php?id_liste=<?php echo $liste['id']; ?> ">
 			<p class="article__item__footer__titre" > <?php  echo $arrNombre['nombre']; ?> Items</p>
 			</a>
 			<div class="article__item__footer__titre2">

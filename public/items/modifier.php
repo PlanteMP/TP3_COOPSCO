@@ -1,194 +1,248 @@
 <?php
-    //***************** Informations de création du fichier ******************//
+
+  // ***************** Fichier de gestion des items d'une liste ******************//
     /**
-     * @author Daoud Coulibaly - 2040480@csfoy.ca
-     * @file liste/model.liste.php
-     * @brief Page permettant de récupérer les données des item d'une liste.
-     * @details Cette page permet de récupérer les données d'une liste en particulier pour l'affichage dans la vue.
-     * @version 1.0
+     * @author Laurie Roy
+     * @brief Script de gestion des données liées aux items d'une liste.
+     * @details Ce script gère la modification des items d'une liste spécifique.
+     * @version 2.0
      * @date 28 novembre 2024
      */
 
-    //  die("Le fichier est bien inclus.");
-    //***************** Niveau ******************//
-    $niveau = "../";
+$niveau = "../";
 
-    //***************** Inclusion de la connexion à la base de données ******************//
-    include($niveau . 'liaisons/php/config.inc.php');
+//***************** Inclusion de la connexion à la base de données ******************//
+include($niveau . 'liaisons/php/config.inc.php');
 
-    //***************** Variables importante ******************//
-    if (isset($_GET['id_liste'])) {
-        $id_liste = $_GET['id_liste'];
-    }
-    if (isset($_GET['id_item'])) {
-        $id_item = $_GET['id_item'];
-    }
-    if (isset($_GET['description'])) {
-        $nomItem = $_GET['description'];
-    }
-    $est_complete = 0;
+//***************** Variables importantes ******************//
+$id_liste = $_GET['id_liste'] ?? null;
+$id_item = $_GET['id_item'] ?? null;
+$strCodeOperation = $_GET['code_operation'] ?? null;
 
-    //date
-    if (isset($_GET['jour'])) {
-        $jour = $_GET['jour'];
-    }
-    else {
-        $jour = 0;
-    }
-    if (isset($_GET['mois'])) {
-        $mois = $_GET['mois'];
-    }
-    else {
-        $mois = 0;
-    }
-    if (isset($_GET['annee'])) {
-        $annee = $_GET['annee'];
-    }
-    else {
-        $annee = 0;
-    }
-    //Code d'opération
-    $strCodeOperation = '';
-    if (isset($_GET['btn_supprimer'])) {
-        $strCodeOperation = 'supprimer';
-    }
-    if (isset($_GET['btn_creer'])) {
-        $strCodeOperation = 'creer';
-    }
-    if(isset($_GET['code_operation'])) {
-        switch($_GET['code_operation']) {
-            case 'ajouter':
-                $strCodeOperation = 'ajouter';
-                break;
-            case 'modifier':
-                $strCodeOperation = 'modifier';
-                break;
-        }
-    }
-    //variable temporaire:
-    $id_liste = 2;
-?>
+// Vérification des paramètres obligatoires
+if (!$strCodeOperation || !$id_liste) {
+    die("Erreur : Opération ou ID de liste manquant.");
+}
 
-<?php 
-    //***************** Crée un item de la liste ******************//
-    //Vérification de la date
-    if($jour != 0 && $mois != 0 && $annee != 0 && checkdate(intval($mois), intval($jour), intval($annee))) {
-        $echeance = $annee . '-' . $mois . '-' . $jour;
-    }
-    else {
-        $echeance = null;
+// Initialisation des variables par défaut
+$arrInfosItem = [
+    'nom' => '',
+    'jour' => 0,
+    'mois' => 0,
+    'annee' => 0,
+    'est_complete' => 0,
+];
+
+if ($strCodeOperation === 'modifier' && $id_item) {
+    // Récupération des informations de l'item à modifier
+    $strRequete = "SELECT nom, DAY(echeance) AS jour, MONTH(echeance) AS mois, 
+                          YEAR(echeance) AS annee, est_complete 
+                   FROM items WHERE id = :id_item";
+    $objResultat = $objPdo->prepare($strRequete);
+    $objResultat->bindParam(':id_item', $id_item, PDO::PARAM_INT);
+    $objResultat->execute();
+
+    $ligne = $objResultat->fetch(PDO::FETCH_ASSOC);
+
+    if (!$ligne) {
+        die("Erreur : Aucun item trouvé pour cet ID.");
     }
 
-    var_dump($echeance);
+    $arrInfosItem = [
+        'nom' => $ligne['nom'],
+        'jour' => $ligne['jour'] ?? 0,
+        'mois' => $ligne['mois'] ?? 0,
+        'annee' => $ligne['annee'] ?? 0,
+        'est_complete' => $ligne['est_complete'] ?? 0,
+    ];
+} elseif ($strCodeOperation === 'creer') {
+    // Configuration pour la création d'un nouvel item
+    $arrInfosItem = [
+        'nom' => '',
+        'jour' => 0,
+        'mois' => 0,
+        'annee' => 0,
+        'est_complete' => 0,
+    ];
+} else {
+    die("Erreur : Opération invalide ou ID d'item manquant.");
+}
 
-    if($strCodeOperation == 'creer') {
-        $strRequete = "INSERT INTO items (nom, echeance, est_complete, liste_id) VALUES (:nom, :echeance, :est_complete, :id_liste)";
-        // $strRequete = "INSERT INTO items (nom, est_complete, liste_id) VALUES (:nom, :est_complete, :id_liste)";
+//***************** Traitement du formulaire ******************//
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $nom = $_POST['description'] ?? '';
+    $jour = $_POST['jour'] ?? 0;
+    $mois = $_POST['mois'] ?? 0;
+    $annee = $_POST['annee'] ?? 0;
+
+    $echeance = ($jour != 0 && $mois != 0 && $annee != 0 && checkdate((int)$mois, (int)$jour, (int)$annee)) 
+        ? "$annee-$mois-$jour" 
+        : null;
+
+    if ($strCodeOperation === 'modifier' && $id_item) {
+        // Mise à jour de l'item existant
+        $strRequete = "UPDATE items 
+                       SET nom = :nom, echeance = :echeance, est_complete = :est_complete 
+                       WHERE id = :id_item";
         $objResultat = $objPdo->prepare($strRequete);
-        $objResultat->bindParam(':nom', $nomItem);
+        $objResultat->bindParam(':nom', $nom);
         $objResultat->bindParam(':echeance', $echeance);
-        $objResultat->bindParam(':est_complete', $est_complete);
-        $objResultat->bindParam(':id_liste', $id_liste);
+        $objResultat->bindParam(':est_complete', $arrInfosItem['est_complete']);
+        $objResultat->bindParam(':id_item', $id_item, PDO::PARAM_INT);
         $objResultat->execute();
 
-        header("Location: " . $niveau . "pages/liste/index.php");
+        // Redirection vers afficher.php après la modification
+        header("Location: afficher.php?id_liste=$id_liste");
+        exit;
+    } elseif ($strCodeOperation === 'creer') {
+        // Création d'un nouvel item
+        $strRequete = "INSERT INTO items (nom, echeance, est_complete, liste_id) 
+                       VALUES (:nom, :echeance, :est_complete, :id_liste)";
+        $objResultat = $objPdo->prepare($strRequete);
+        $objResultat->bindParam(':nom', $nom);
+        $objResultat->bindParam(':echeance', $echeance);
+        $objResultat->bindParam(':est_complete', $arrInfosItem['est_complete']);
+        $objResultat->bindParam(':id_liste', $id_liste, PDO::PARAM_INT);
+        $objResultat->execute();
+
+        // Redirection vers afficher.php après la création
+        header("Location: afficher.php?id_liste=$id_liste");
+        exit;
     }
+}
 ?>
 <?php 
-    //***************** Modifie un item de la liste ******************//
-    if($strCodeOperation == 'modifier') {
-        $strRequete = "SELECT nom, DAY(echeance) AS jour, MONTH(echeance) AS mois, YEAR(echeance) AS annee, est_complete FROM items WHERE id = :id_item";
-        $objResultat = $objPdo->prepare($strRequete);
-        $objResultat->bindParam(':id_item', $id_item);
-        $objResultat->execute();
-        
+$requeteSQL = "
+    SELECT listes.nom, listes.id, couleurs.hexadecimal 
+    FROM listes
+    INNER JOIN couleurs ON listes.couleur_id = couleurs.id
+";
+$objStat = $objPdo->prepare($requeteSQL);
+$objStat->execute();
+$arrListes = $objStat->fetchAll();
 
-        // die("Le fichier est bien inclus.");
-        $ligne = $objResultat->fetch();
-        $arrInfosItem['nom'] = $ligne['nom'];
-        $arrInfosItem['jour'] = $ligne['jour'];
-        $arrInfosItem['mois'] = $ligne['mois'];
-        $arrInfosItem['annee'] = $ligne['annee'];
-        $arrInfosItem['est_complete'] = $ligne['est_complete'];
-
-        var_dump($arrInfosItem['nom']);
-
-        $objResultat->closeCursor();
-
-        // header("Location: " . $niveau . "pages/liste/index.php");
-    }
+$strRequeteItemsUrgentEcheance = 'SELECT items.id as id_item,
+                            items.nom as nom_item,
+                            items.echeance,
+                            items.est_complete,
+                            items.liste_id,
+                            listes.nom as nom_liste,
+                            couleurs.hexadecimal
+                            FROM items
+                            INNER JOIN listes
+                            ON items.liste_id = listes.id
+                            INNER JOIN couleurs
+                            ON listes.couleur_id = couleurs.id
+                            WHERE items.echeance >= CURDATE()';
+$pdoResultatItemsUrgentEcheance = $objPdo->prepare($strRequeteItemsUrgentEcheance);
+$pdoResultatItemsUrgentEcheance->execute();
+$arrItemsUrgentEcheance = array();
+while ($ligne = $pdoResultatItemsUrgentEcheance->fetch()) {
+    $arrItemsUrgentEcheance[] = array(
+        'id_item' => $ligne['id_item'],
+        'nom_item' => $ligne['nom_item'],
+        'echeance' => $ligne['echeance'],
+        'est_complete' => $ligne['est_complete'],
+        'liste_id' => $ligne['liste_id'],
+        'nom_liste' => $ligne['nom_liste'],
+        'hexadecimal' => $ligne['hexadecimal']
+    );
+}
 ?>
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Page permettant de visualiser les tâches d'une liste.">
-    <meta name="keywords" content="liste, tâches, visualisation">
-    <meta name="author" content="Daoud Coulibaly">
+    <meta name="description" content="Page permettant de modifier ou créer un item d'une liste.">
+    <meta name="keywords" content="liste, tâches, modification, création">
+    <meta name="author" content="Marie-pierre Plante">
     <?php include $niveau . "liaisons/fragments/headlinks.inc.php"; ?>
-    <title>Document</title>
+    <title><?php echo ($strCodeOperation === 'creer') ? 'Créer un item' : 'Modifier un item'; ?></title>
 </head>
 <body>
-    <section class="creer">
-        <header class="creer__header">
-
-    </header>
-    
-    <form class="creer__article" action="<?php echo $niveau; ?>pages/item/index.php" method="get">
-    <div class="creer__article__tache">
-            <label for="description">Tâche: </label>
-            <input type="text" name="description" id="description" value="">
-        </div>
-        <hr>
-        <footer class="creer__article__footer">
-            <button class="btn__echeance" type="button" name="btn_echeance" value="false">Ajouter une échéance</button>
-            <div class="dateEcheance">
-                <ul class="creer__article__footer__flex">
-                <li class="jour">
-                    <label for="jour"> </label>
-                    <select name="jour" id="jour">
-                        <option value="0">Jour</option>
-                        <?php for ($i = 1; $i <= 31; $i++) { ?>
-                                <option value="<?php echo $i; ?>">
-                                    <?php echo $i; ?>
-                                </option>
-                        <?php } ?>
-                    </select>
-</li>
-                <li class="mois">
-                    <label for="mois"> </label>
-                    <select name="mois" id="mois">
-                        <option value="0">Mois</option>
-                        <?php for ($i = 1; $i <= 12; $i++) { ?>
-                                <option value="<?php echo $i;?>" >
-                                    <?php echo $i; ?>
-                                </option>
-                        <?php } ?>
-                    </select>
-</li>
-                <li class="annee">
-                    <label for="annee"> </label>
-                    <select name="annee" id="annee">
-                        <option value="0">Année</option>
-                        <?php 
-							$anneeActuelle = date("Y");
-							for ($i = $anneeActuelle; $i <= $anneeActuelle + 10; $i++) { ?>
-								<option value="<?php echo $i; ?>">
-									<?php echo $i; ?>
-								</option>
-						<?php } ?>
-                    </select>
-</li>
-                </ul>
-                <button type="button" id="reinitialiser" class="bouton__reinitialiser">Réinitialiser la date</button>
+<?php include ($niveau . "liaisons/fragments/entete.inc.php");?>
+<main class="bang">
+<section class="meslistes">
+            <header class="meslistes__header">
+                <h2 class="meslistes__header__titre">Mes listes</h2>
+</header>
+            <ul class="meslistes__container">
+                <?php
+                // Définir la locale pour les dates en français canadien
+                $formatter = new IntlDateFormatter('fr_CA', IntlDateFormatter::FULL, IntlDateFormatter::NONE, 'America/Toronto', IntlDateFormatter::GREGORIAN, 'd MMMM yyyy');
+                for ($i = 0; $i < min(3, count($arrItemsUrgentEcheance)); $i++) {
+                    $item = $arrItemsUrgentEcheance[$i];
+                    // Convertir la date en un format lisible
+                    $date = new DateTime($item['echeance']);
+                    $formattedDate = $formatter->format($date); // Formater la date en français canadien
+                    ?>
+                    <li class="meslistes__item" style="border-left: 8px solid # list-style:none;<?php echo $item['hexadecimal']; ?>;">
+                   
+                    <span style="background-color: #<?php  echo $item['hexadecimal']; ?>;" class="meslistes__item__couleur"></span>
+                    <a href="<?php echo  $niveau; ?>items/afficher.php?id_liste=<?php  echo $item['liste_id'] ?>  ">
+                    <span class="meslistes__item__nom"><p><?php echo $item['nom_item']; ?></p></span>
+                      </a>
+                      
+                    </li>
+                <?php } ?>
+            </ul>
+                </section>
+    <section class="section__modifier">
+        <header class="section__modifier__header">
+            <h1><?php echo ($strCodeOperation === 'creer') ? 'Ajouter un item' : 'Modifier l\'item : ' . htmlspecialchars($arrInfosItem['nom']); ?></h1>
+        </header>
+        <form class="section__modifier__article" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF'] . "?code_operation=$strCodeOperation&id_liste=$id_liste&id_item=$id_item"); ?>" method="post">
+            <input type="hidden" name="id_liste" value="<?php echo htmlspecialchars($id_liste); ?>">
+            <?php if ($strCodeOperation === 'modifier') { ?>
+                <input type="hidden" name="id_item" value="<?php echo htmlspecialchars($id_item); ?>">
+            <?php } ?>
+            <div class="section__modifier__article__tache">
+                <label for="description">Nom de l'item :</label>
+                <input type="text" name="description" id="description" value="<?php echo htmlspecialchars($arrInfosItem['nom']); ?>" required>
             </div>
-            <input type="submit" value="Creer" name="btn_creer" class="btn__creer">
+            <label for="echeance" class="date__titre">Date d'échéance :</label>
+            <div class="section__modifier__article__date">
+                
+                <label for="jour"></label>
+                <select name="jour" id="jour">
+                    <option value="0">Jour</option>
+                    <?php for ($i = 1; $i <= 31; $i++) { ?>
+                        <option value="<?php echo $i; ?>" <?php echo ($i == $arrInfosItem['jour']) ? 'selected' : ''; ?>>
+                            <?php echo $i; ?>
+                        </option>
+                    <?php } ?>
+                </select>
+                <label for="mois"></label>
+                <select name="mois" id="mois">
+                    <option value="0">Mois</option>
+                    <?php for ($i = 1; $i <= 12; $i++) { ?>
+                        <option value="<?php echo $i; ?>" <?php echo ($i == $arrInfosItem['mois']) ? 'selected' : ''; ?>>
+                            <?php echo $i; ?>
+                        </option>
+                    <?php } ?>
+                </select>
+                <label for="annee"></label>
+                <select name="annee" id="annee">
+                    <option value="0">Année</option>
+                    <?php $anneeActuelle = date("Y");
+                    for ($i = $anneeActuelle; $i <= $anneeActuelle + 10; $i++) { ?>
+                        <option value="<?php echo $i; ?>" <?php echo ($i == $arrInfosItem['annee']) ? 'selected' : ''; ?>>
+                            <?php echo $i; ?>
+                        </option>
+                    <?php } ?>
+                </select>
+            </div>
+            <footer class="section__modifier__article__footer">
+                <button type="submit" name="<?php echo ($strCodeOperation === 'creer') ? 'btn_creer' : 'btn_modifier'; ?>" class="btn__modifier">
+                    <?php echo ($strCodeOperation === 'creer') ? 'Créer' : 'Enregistrer les modifications'; ?>
+                </button>
 
-</footer>
-    </form>
-   
+            </footer>
+        </form>
+ 
     </section>
+    </main>
+    <?php include ($niveau . "liaisons/fragments/piedDePage.inc.php");?>
 </body>
 </html>
