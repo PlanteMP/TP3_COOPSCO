@@ -22,7 +22,10 @@
   src: url("../fonts/Roboto-Regular.ttc") format("truetype");
 }
 
-$fontePrimaire: Roboto, sans-serif;
+@import url("https://fonts.googleapis.com/css2?family=DM+Serif+Text:ital@0;1&family=Londrina+Sketch&family=Patrick+Hand&display=swap");
+
+$fontePrimaire: Patrick Hand, 400, normal;
+
 $fonteSecondaire: Arial, sans-serif;
 
 /**** Typographie responsive ****/
@@ -93,5 +96,8 @@ h3,
   line-height: 1.375;
   &--desktop {
     line-height: 1.5;
+  }
+  .titre {
+    font-family: $fontePrimaire;
   }
 }

@@ -63,7 +63,7 @@ $couleurs = $objPdo->query('SELECT id, nom_fr, hexadecimal FROM couleurs')->fetc
         .form-container { max-width: 600px; margin: auto; }
         .error { color: red; font-size: 0.9rem; }
         .color-option { display: flex; align-items: center; margin-bottom: 5px; }
-        .color-swatch { width: 20px; height: 20px; margin-right: 10px; border: 1px solid #ccc; }
+        .color-click { width: 20px; height: 20px; margin-right: 10px; border: 1px solid #ccc; }
         .button { margin-top: 10px; padding: 10px; text-align: center; background-color: #000; color: #fff; border: none; cursor: pointer; }
     </style>
 </head>
@@ -89,7 +89,7 @@ $couleurs = $objPdo->query('SELECT id, nom_fr, hexadecimal FROM couleurs')->fetc
                     <input type="radio" name="couleur" value="<?= $couleur['id'] ?>" 
                            data-name="<?= htmlspecialchars($couleur['nom_fr']) ?>" 
                            <?= isset($couleur_id) && $couleur_id == $couleur['id'] ? 'checked' : '' ?>>
-                    <span class="color-swatch" style="background-color: #<?= $couleur['hexadecimal'] ?>"></span>
+                    <span class="color-click" style="background-color: #<?= $couleur['hexadecimal'] ?>"></span>
                   
                   
 

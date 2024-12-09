@@ -10,7 +10,6 @@
      */
  
 $niveau = "../";
- 
 //***************** Inclusion de la connexion à la base de données ******************//
 include($niveau . 'liaisons/php/config.inc.php');
  
