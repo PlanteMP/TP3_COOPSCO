@@ -1,7 +1,7 @@
 <?php
     //***************** Informations de création du fichier ******************//
     /**
-     * @author Daoud Coulibaly - 2040480@csfoy.ca
+     * @author Laurie
      * @file liste/model.liste.php
      * @brief Page permettant de récupérer les données des item d'une liste.
      * @details Cette page permet de récupérer les données d'une liste en particulier pour l'affichage dans la vue.
