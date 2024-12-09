@@ -54,8 +54,11 @@
 /****** MODULES *****************************/
 
 /****** LAYOUT *****************************/
-@import "layout/accueil";
+@import "layout/accueil.scss";
 @import "layout/entete";
 @import "layout/piedDePage";
 @import "layout/modifier";
 @import "layout/ajouter";
+@import "layout/afficher";
+@import "layout/urgent";
+@import "layout/item";

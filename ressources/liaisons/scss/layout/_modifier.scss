@@ -18,17 +18,17 @@
   flex-wrap: wrap;
 }
 .color-option input[type="radio"] {
-  display: none;
+  display: none; /* Cache le cercle */
 }
 
 .color-option .color-swatch {
-  cursor: pointer;
-  border: 2px solid transparent;
+  cursor: pointer; /* Change le curseur pour indiquer que c'est cliquable */
+  border: 2px solid transparent; /* Ajoute une bordure pour le focus */
   transition: border 0.3s ease;
 }
 
 .color-option input[type="radio"]:checked + .color-swatch {
-  border: 2px solid #000;
+  border: 2px solid #000; /* Bordure visible pour l'élément sélectionné */
 }
 .section__couleur {
   display: flex;

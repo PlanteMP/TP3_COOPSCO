@@ -7,8 +7,8 @@
   padding: 0;
   list-style: none;
   gap: 50px;
-  max-width: calc(300px * 2 + 150px);
-  margin: 50px auto;
+  max-width: calc(300px * 2 + 150px * 2);
+  margin: 25px;
   text-align: center;
   @media (max-width: 768px) {
     justify-content: center;
@@ -69,4 +69,16 @@
   align-items: center;
   margin-left: auto;
   padding: 10px;
+}
+.urgent__list {
+  display: flex;
+  flex-wrap: wrap;
+
+  gap: 50px;
+  margin: 50px auto;
+  max-width: calc(300px * 2 + 150px);
+  list-style: none;
+  @media (max-width: 768px) {
+    justify-content: center;
+  }
 }

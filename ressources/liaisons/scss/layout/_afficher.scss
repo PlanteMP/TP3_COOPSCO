@@ -1,0 +1,113 @@
+.bang {
+  display: flex;
+  justify-content: center;
+
+  margin: 150px auto;
+  @media (max-width: 765px) {
+    flex-direction: column;
+  }
+}
+.liste {
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  flex-direction: column;
+  &__header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    cursor: pointer;
+    &__couleur {
+      width: 65px;
+      height: 30px;
+
+      border: 1px solid black;
+    }
+    & h1 {
+      font-size: 3rem;
+      font-weight: bold;
+      text-decoration: underline;
+      text-transform: capitalize;
+    }
+    &__bouton {
+      text-decoration: none;
+      border: 1px solid black;
+      padding: 12px;
+      margin: 15px;
+      border-radius: 5px;
+      background-color: rgb(184, 239, 253);
+      &:hover {
+        background-color: black;
+        color: white;
+      }
+    }
+  }
+  &__article {
+    border: 1px solid black;
+    border-radius: 15px;
+    margin: 10px;
+    padding: 40px;
+    @media (max-width: 768px) {
+      padding: 20px 0px;
+    }
+    &__ul {
+      margin-bottom: 45px;
+      @media (max-width: 768px) {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+      &__items {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 10px;
+        padding: 10px;
+        border-bottom: 1px solid black;
+        text-align: left;
+
+        &__form {
+          display: flex;
+          max-width: 500px;
+          align-items: center;
+          width: 100%;
+          &__titres li {
+            list-style: none;
+            font-size: 2rem;
+            font-weight: bold;
+          }
+          &__titres {
+            margin: 0;
+            margin-right: auto;
+          }
+          &__input {
+            padding: 5px;
+            border-radius: 5px;
+            border: 1px solid black;
+          }
+          &__boutons {
+            padding: 5px;
+            border-radius: 5px;
+            text-decoration: none;
+
+            margin-left: auto;
+          }
+        }
+      }
+    }
+  }
+}
+.boutons__droites {
+  text-decoration: none;
+  border: 1px solid black;
+  padding: 5px;
+  border-radius: 5px;
+  background-color: transparent;
+  &:hover {
+    background-color: black;
+    color: white;
+  }
+}

@@ -8,7 +8,7 @@ $messageSucces = "";
 if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["id_liste"])) {
     $id = $_GET["id_liste"];
     
-    // Fetch current list details
+   
     $stmt = $objPdo->prepare('SELECT nom, couleur_id FROM listes WHERE id = :id');
     $stmt->execute([':id' => $id]);
     $list = $stmt->fetch(PDO::FETCH_ASSOC);
