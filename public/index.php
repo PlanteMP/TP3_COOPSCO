@@ -66,7 +66,7 @@ if (isset($_GET['liste_id'])) {
 
 	<?php include ($niveau . "liaisons/fragments/entete.inc.php");?>
 
-	<main class="bang">
+	<main class="navigation">
     <section class="meslistes">
             <header class="meslistes__header">
                 <h2 class="meslistes__header__titre">Mes listes</h2>

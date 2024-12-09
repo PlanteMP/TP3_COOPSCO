@@ -1,17 +1,9 @@
 <?php
-    // ***************** Fichier de gestion des items d'une liste ******************//
-    /**
-     * @author Laurie Roy
-     * @brief Script de gestion des données liées aux items d'une liste.
-     * @details Ce script gère la l'ajout des items d'une liste spécifique.
-     * @version 2.0
-     * @date 28 novembre 2024
-     */
 
-    // Niveau de répertoire
+  
     $niveau = "../";
 
-    // Inclusion de la configuration de la base de données
+    
     include($niveau . 'liaisons/php/config.inc.php');
 
     // Initialisation des variables
@@ -35,43 +27,42 @@
     if ($jour && $mois && $annee && checkdate((int)$mois, (int)$jour, (int)$annee)) {
         $echeance = sprintf('%04d-%02d-%02d', $annee, $mois, $jour);
     }
-
+   
+    
     // Opération : Création d'un item
     if ($operation === 'creer') {
-        // Valider les données
+        
         if (empty($itemDescription)) {
-            die("Erreur : La description de l'item est requise.");
+            echo "Erreur : La description de l'item est requise.<br>";
         }
+        
         if (empty($idListe)) {
-            die("Erreur : ID de la liste manquant.");
+            echo "Erreur : ID de la liste manquant.<br>";
+            return;
         }
     
         // Insertion dans la base de données
         $sql = "INSERT INTO items (nom, echeance, est_complete, liste_id) 
                 VALUES (:nom, :echeance, :est_complete, :id_liste)";
-        $stmt = $objPdo->prepare($sql);
-        $stmt->bindParam(':nom', $itemDescription);
-        $stmt->bindParam(':echeance', $echeance);
-        $stmt->bindParam(':est_complete', $isComplete);
-        $stmt->bindParam(':id_liste', $idListe);
-        $stmt->execute();
+       
+        $objPdo->prepare($sql)->execute([
+            ':nom' => $itemDescription,
+            ':echeance' => $echeance,
+            ':est_complete' => $isComplete,
+            ':id_liste' => $idListe
+        ]);
     
-        // Redirection après succès
+        // Redirection  
         header("Location: afficher.php?id_liste=$idListe");
         exit;
     }
-    
-
-    // Opération : Modification d'un item
+        
     if ($operation === 'modifier') {
         $sql = "SELECT nom, DAY(echeance) AS jour, MONTH(echeance) AS mois, 
                        YEAR(echeance) AS annee, est_complete 
                 FROM items WHERE id = :id_item";
-        $stmt = $objPdo->prepare($sql);
-        $stmt->bindParam(':id_item', $idItem);
-        $stmt->execute();
-        $itemDetails = $stmt->fetch(PDO::FETCH_ASSOC);
-        $stmt->closeCursor();
+    
+        $itemDetails = $objPdo->prepare($sql)->execute([':id_item' => $idItem])->fetch(PDO::FETCH_ASSOC);
     }
     
 ?>
@@ -130,26 +121,26 @@ while ($ligne = $pdoResultatItemsUrgentEcheance->fetch()) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Gérez les tâches de votre liste en toute simplicité.">
     <meta name="keywords" content="gestion, liste, tâches">
-    <meta name="author" content="TonNom">
+    <meta name="author" content="Laurie Roy, Marie-Pierre Plante">
     <?php include $niveau . "liaisons/fragments/headlinks.inc.php"; ?>
     <title>Gestion de Liste</title>
 </head>
 <body>
 <?php include ($niveau . "liaisons/fragments/entete.inc.php");?>
-<main class="bang">
+<main class="navigation">
 <section class="meslistes">
             <header class="meslistes__header">
                 <h2 class="meslistes__header__titre">Mes listes</h2>
 </header>
             <ul class="meslistes__container">
                 <?php
-                // Définir la locale pour les dates en français canadien
+                
                 $formatter = new IntlDateFormatter('fr_CA', IntlDateFormatter::FULL, IntlDateFormatter::NONE, 'America/Toronto', IntlDateFormatter::GREGORIAN, 'd MMMM yyyy');
                 for ($i = 0; $i < min(3, count($arrItemsUrgentEcheance)); $i++) {
                     $item = $arrItemsUrgentEcheance[$i];
-                    // Convertir la date en un format lisible
+                    
                     $date = new DateTime($item['echeance']);
-                    $formattedDate = $formatter->format($date); // Formater la date en français canadien
+                    $formattedDate = $formatter->format($date); 
                     ?>
                     <li class="meslistes__item" style="border-left: 8px solid # list-style:none;<?php echo $item['hexadecimal']; ?>;">
                     <span style="background-color: #<?php  echo $item['hexadecimal']; ?>;" class="meslistes__item__couleur"></span>

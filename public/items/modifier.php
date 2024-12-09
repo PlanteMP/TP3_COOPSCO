@@ -1,29 +1,20 @@
 <?php
+  
+     $niveau = "../";
+     include($niveau . "liaisons/php/config.inc.php");
+     
  
-  // ***************** Fichier de gestion des items d'une liste ******************//
-    /**
-     * @author Laurie Roy
-     * @brief Script de gestion des données liées aux items d'une liste.
-     * @details Ce script gère la modification des items d'une liste spécifique.
-     * @version 2.0
-     * @date 28 novembre 2024
-     */
- 
-$niveau = "../";
-//***************** Inclusion de la connexion à la base de données ******************//
-include($niveau . 'liaisons/php/config.inc.php');
- 
-//***************** Variables importantes ******************//
+
 $id_liste = $_GET['id_liste'] ?? null;
 $id_item = $_GET['id_item'] ?? null;
 $strCodeOperation = $_GET['code_operation'] ?? null;
  
-// Vérification des paramètres obligatoires
+
 if (!$strCodeOperation || !$id_liste) {
-    die("Erreur : Opération ou ID de liste manquant.");
+    echo("Erreur : Opération ou ID de liste manquant.");
 }
  
-// Initialisation des variables par défaut
+// Initialisation des variables 
 $arrInfosItem = [
     'nom' => '',
     'jour' => 0,
@@ -34,6 +25,7 @@ $arrInfosItem = [
  
 if ($strCodeOperation === 'modifier' && $id_item) {
     // Récupération des informations de l'item à modifier
+
     $strRequete = "SELECT nom, DAY(echeance) AS jour, MONTH(echeance) AS mois,
                           YEAR(echeance) AS annee, est_complete
                    FROM items WHERE id = :id_item";
@@ -44,7 +36,7 @@ if ($strCodeOperation === 'modifier' && $id_item) {
     $ligne = $objResultat->fetch(PDO::FETCH_ASSOC);
  
     if (!$ligne) {
-        die("Erreur : Aucun item trouvé pour cet ID.");
+        echo("Erreur : Aucun item trouvé pour cet ID.");
     }
  
     $arrInfosItem = [
@@ -64,10 +56,9 @@ if ($strCodeOperation === 'modifier' && $id_item) {
         'est_complete' => 0,
     ];
 } else {
-    die("Erreur : Opération invalide ou ID d'item manquant.");
+    echo("Erreur : Opération invalide ou ID d'item manquant.");
 }
  
-//***************** Traitement du formulaire ******************//
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nom = $_POST['description'] ?? '';
     $jour = $_POST['jour'] ?? 0;
@@ -93,6 +84,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Redirection vers afficher.php après la modification
         header("Location: afficher.php?id_liste=$id_liste");
         exit;
+        
     } elseif ($strCodeOperation === 'creer') {
         // Création d'un nouvel item
         $strRequete = "INSERT INTO items (nom, echeance, est_complete, liste_id)
@@ -106,7 +98,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
  
         // Redirection vers afficher.php après la création
         header("Location: afficher.php?id_liste=$id_liste");
-        exit;
     }
 }
 ?>
@@ -155,26 +146,26 @@ while ($ligne = $pdoResultatItemsUrgentEcheance->fetch()) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Page permettant de modifier ou créer un item d'une liste.">
     <meta name="keywords" content="liste, tâches, modification, création">
-    <meta name="author" content="Marie-pierre Plante">
+    <meta name="author" content="Laurie Roy, Marie-Pierre Plante">
     <?php include $niveau . "liaisons/fragments/headlinks.inc.php"; ?>
     <title><?php echo ($strCodeOperation === 'creer') ? 'Créer un item' : 'Modifier un item'; ?></title>
 </head>
 <body>
 <?php include ($niveau . "liaisons/fragments/entete.inc.php");?>
-<main class="bang">
+<main class="navigation">
 <section class="meslistes">
             <header class="meslistes__header">
                 <h2 class="meslistes__header__titre">Mes listes</h2>
 </header>
             <ul class="meslistes__container">
                 <?php
-                // Définir la locale pour les dates en français canadien
+                
                 $formatter = new IntlDateFormatter('fr_CA', IntlDateFormatter::FULL, IntlDateFormatter::NONE, 'America/Toronto', IntlDateFormatter::GREGORIAN, 'd MMMM yyyy');
                 for ($i = 0; $i < min(3, count($arrItemsUrgentEcheance)); $i++) {
                     $item = $arrItemsUrgentEcheance[$i];
-                    // Convertir la date en un format lisible
+                    
                     $date = new DateTime($item['echeance']);
-                    $formattedDate = $formatter->format($date); // Formater la date en français canadien
+                    $formattedDate = $formatter->format($date); 
                     ?>
                     <li class="meslistes__item" style="border-left: 8px solid # list-style:none;<?php echo $item['hexadecimal']; ?>;">
                    

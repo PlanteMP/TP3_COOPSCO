@@ -1,38 +1,27 @@
 <?php
 
-    // ***************** Fichier de gestion des items d'une liste ******************//
-    /**
-     * @author Laurie Roy
-     * @brief Script de gestion des données liées aux items d'une liste.
-     * @details Ce script gère l'affichage des items d'une liste spécifique.
-     * @version 2.0
-     * @date 28 novembre 2024
-     */
-
-
 $niveau = "../";
 
-//***************** Inclusion de la connexion à la base de données ******************//
+
 include($niveau . 'liaisons/php/config.inc.php');
 
-//***************** Variables importantes ******************//
+// Variables importantes 
 $id_liste = $_GET['id_liste'] ?? null;
 $id_item = $_GET['id_item'] ?? null;
 $strCodeOperation = $_GET['code_operation'] ?? '';
 
-//***************** Suppression d'un item ******************//
+// Suppression 
 if ($strCodeOperation === 'supprimer' && $id_item && $id_liste) {
     $strRequete = "DELETE FROM items WHERE id = :id_item";
     $objResultat = $objPdo->prepare($strRequete);
     $objResultat->bindParam(':id_item', $id_item, PDO::PARAM_INT);
     $objResultat->execute();
 
-    // Redirection vers afficher.php après suppression
     header("Location: afficher.php?id_liste=$id_liste");
     exit;
 }
 
-//***************** Modification de l'état d'un item ******************//
+// Modification 
 if (isset($_GET['btn_etat']) && $id_item && $id_liste) {
     $nouvelEtat = $_GET['btn_etat'] === '0' ? 1 : 0;
     $strRequete = "UPDATE items SET est_complete = :id_etat WHERE id = :id_item";
@@ -41,12 +30,11 @@ if (isset($_GET['btn_etat']) && $id_item && $id_liste) {
     $objResultat->bindParam(':id_item', $id_item, PDO::PARAM_INT);
     $objResultat->execute();
 
-    // Redirection vers afficher.php après modification
     header("Location: afficher.php?id_liste=$id_liste");
     exit;
 }
 
-//***************** Récupération de tous les items d'une liste ******************//
+// Récupération de tous les items d'une liste 
 $strRequete = "SELECT id, nom, echeance, est_complete FROM items WHERE liste_id = :id_liste ORDER BY nom";
 $objResultat = $objPdo->prepare($strRequete);
 $objResultat->bindParam(':id_liste', $id_liste, PDO::PARAM_INT);
@@ -65,7 +53,7 @@ while ($ligne = $objResultat->fetch(PDO::FETCH_ASSOC)) {
 
 $objResultat->closeCursor();
 
-//***************** Récupérations des informations de la liste ******************//
+// Récupérations des informations de la liste 
 $strRequete = "SELECT listes.nom, couleurs.hexadecimal FROM listes 
                 INNER JOIN couleurs ON listes.couleur_id = couleurs.id WHERE listes.id = :id_liste";
 $objResultat = $objPdo->prepare($strRequete);
@@ -74,8 +62,10 @@ $objResultat->execute();
 
 $arrInfosListe = $objResultat->fetch(PDO::FETCH_ASSOC);
 if (!$arrInfosListe) {
-    die("Erreur : Liste introuvable.");
+    echo "Erreur : Liste introuvable.";
+    return;
 }
+
 ?>
 <?php 
 $requeteSQL = "
@@ -116,7 +106,7 @@ while ($ligne = $pdoResultatItemsUrgentEcheance->fetch()) {
 }
 ?>
 <?php
-    //***************** Récupérations des informations de la liste ******************//
+    // Récupérations des informations de la liste 
     $strRequete = "SELECT listes.nom, couleurs.hexadecimal FROM listes 
                     INNER JOIN couleurs ON listes.couleur_id = couleurs.id WHERE listes.id = :id_liste";
 
@@ -137,26 +127,27 @@ while ($ligne = $pdoResultatItemsUrgentEcheance->fetch()) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Page permettant de visualiser les tâches d'une liste.">
     <meta name="keywords" content="liste, tâches, visualisation">
-    <meta name="author" content="Marie-Pierre Plante">
+    <meta name="author" content="Laurie Roy, Marie-Pierre Plante">
     <?php include $niveau . "liaisons/fragments/headlinks.inc.php"; ?>
     <title>Liste : <?php echo htmlspecialchars($arrInfosListe['nom']); ?></title>
 </head>
 <body>
 <?php include ($niveau . "liaisons/fragments/entete.inc.php");?>
-<main class="bang">
+<main class="navigation">
 <section class="meslistes">
             <header class="meslistes__header">
                 <h2 class="meslistes__header__titre">Mes listes</h2>
 </header>
             <ul class="meslistes__container">
                 <?php
-                // Définir la locale pour les dates en français canadien
+                
+
                 $formatter = new IntlDateFormatter('fr_CA', IntlDateFormatter::FULL, IntlDateFormatter::NONE, 'America/Toronto', IntlDateFormatter::GREGORIAN, 'd MMMM yyyy');
                 for ($i = 0; $i < min(3, count($arrItemsUrgentEcheance)); $i++) {
                     $item = $arrItemsUrgentEcheance[$i];
-                    // Convertir la date en un format lisible
+                   
                     $date = new DateTime($item['echeance']);
-                    $formattedDate = $formatter->format($date); // Formater la date en français canadien
+                    $formattedDate = $formatter->format($date); 
                     ?>
                     <li class="meslistes__item" style="border-left: 8px solid # list-style:none;<?php echo $item['hexadecimal']; ?>;">
                 
