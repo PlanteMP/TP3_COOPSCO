@@ -13,12 +13,12 @@ $bleuMoyen: #358ae0;
 $bleuPale: #68a8e8;
 $vertLime: #bbd531;
 $bleuMinuit: #012d61;
-$bleuMarin: #2678B5;
+$bleuMarin: #2678b5;
+$beige: beige;
 
-$bleuMoyenTransparent : transparentize($bleuMoyen, 0.50);
+$bleuMoyenTransparent: transparentize($bleuMoyen, 0.5);
 
 /* Autres couleurs */
 
-
 /** Points de rupture **/
-$desktop : 601px;
+$desktop: 601px;

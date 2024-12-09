@@ -61,6 +61,7 @@ $fondBouton: white;
       height: 20px;
     }
 
+    //BOUTON UTILISATEUR
     .banner__bouton__utilisateur {
       display: flex;
       align-items: center;
@@ -87,6 +88,7 @@ $fondBouton: white;
   }
 }
 
+//BOUTONS MOBILE
 @media (max-width: 768px) {
   .banner__contenu {
     flex-direction: column;
@@ -108,6 +110,7 @@ $fondBouton: white;
   }
 }
 
+// MENU COLLANT
 .menuCollant {
   background-color: $fondEntete;
   padding: 5px;
@@ -134,6 +137,8 @@ $fondBouton: white;
 .menuCollant__lien:hover {
   background-color: darken($fondBouton, 10%);
 }
+
+/* Si le menu est fixe */
 
 .menuCollant--fixe .menuCollant {
   position: fixed;
