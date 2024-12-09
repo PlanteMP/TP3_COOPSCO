@@ -1,5 +1,5 @@
 <?php
-
+ 
   // ***************** Fichier de gestion des items d'une liste ******************//
     /**
      * @author Laurie Roy
@@ -8,22 +8,22 @@
      * @version 2.0
      * @date 28 novembre 2024
      */
-
+ 
 $niveau = "../";
-
+ 
 //***************** Inclusion de la connexion à la base de données ******************//
 include($niveau . 'liaisons/php/config.inc.php');
-
+ 
 //***************** Variables importantes ******************//
 $id_liste = $_GET['id_liste'] ?? null;
 $id_item = $_GET['id_item'] ?? null;
 $strCodeOperation = $_GET['code_operation'] ?? null;
-
+ 
 // Vérification des paramètres obligatoires
 if (!$strCodeOperation || !$id_liste) {
     die("Erreur : Opération ou ID de liste manquant.");
 }
-
+ 
 // Initialisation des variables par défaut
 $arrInfosItem = [
     'nom' => '',
@@ -32,22 +32,22 @@ $arrInfosItem = [
     'annee' => 0,
     'est_complete' => 0,
 ];
-
+ 
 if ($strCodeOperation === 'modifier' && $id_item) {
     // Récupération des informations de l'item à modifier
-    $strRequete = "SELECT nom, DAY(echeance) AS jour, MONTH(echeance) AS mois, 
-                          YEAR(echeance) AS annee, est_complete 
+    $strRequete = "SELECT nom, DAY(echeance) AS jour, MONTH(echeance) AS mois,
+                          YEAR(echeance) AS annee, est_complete
                    FROM items WHERE id = :id_item";
     $objResultat = $objPdo->prepare($strRequete);
     $objResultat->bindParam(':id_item', $id_item, PDO::PARAM_INT);
     $objResultat->execute();
-
+ 
     $ligne = $objResultat->fetch(PDO::FETCH_ASSOC);
-
+ 
     if (!$ligne) {
         die("Erreur : Aucun item trouvé pour cet ID.");
     }
-
+ 
     $arrInfosItem = [
         'nom' => $ligne['nom'],
         'jour' => $ligne['jour'] ?? 0,
@@ -67,22 +67,22 @@ if ($strCodeOperation === 'modifier' && $id_item) {
 } else {
     die("Erreur : Opération invalide ou ID d'item manquant.");
 }
-
+ 
 //***************** Traitement du formulaire ******************//
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nom = $_POST['description'] ?? '';
     $jour = $_POST['jour'] ?? 0;
     $mois = $_POST['mois'] ?? 0;
     $annee = $_POST['annee'] ?? 0;
-
-    $echeance = ($jour != 0 && $mois != 0 && $annee != 0 && checkdate((int)$mois, (int)$jour, (int)$annee)) 
-        ? "$annee-$mois-$jour" 
+ 
+    $echeance = ($jour != 0 && $mois != 0 && $annee != 0 && checkdate((int)$mois, (int)$jour, (int)$annee))
+        ? "$annee-$mois-$jour"
         : null;
-
+ 
     if ($strCodeOperation === 'modifier' && $id_item) {
         // Mise à jour de l'item existant
-        $strRequete = "UPDATE items 
-                       SET nom = :nom, echeance = :echeance, est_complete = :est_complete 
+        $strRequete = "UPDATE items
+                       SET nom = :nom, echeance = :echeance, est_complete = :est_complete
                        WHERE id = :id_item";
         $objResultat = $objPdo->prepare($strRequete);
         $objResultat->bindParam(':nom', $nom);
@@ -90,13 +90,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $objResultat->bindParam(':est_complete', $arrInfosItem['est_complete']);
         $objResultat->bindParam(':id_item', $id_item, PDO::PARAM_INT);
         $objResultat->execute();
-
+ 
         // Redirection vers afficher.php après la modification
         header("Location: afficher.php?id_liste=$id_liste");
         exit;
     } elseif ($strCodeOperation === 'creer') {
         // Création d'un nouvel item
-        $strRequete = "INSERT INTO items (nom, echeance, est_complete, liste_id) 
+        $strRequete = "INSERT INTO items (nom, echeance, est_complete, liste_id)
                        VALUES (:nom, :echeance, :est_complete, :id_liste)";
         $objResultat = $objPdo->prepare($strRequete);
         $objResultat->bindParam(':nom', $nom);
@@ -104,23 +104,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $objResultat->bindParam(':est_complete', $arrInfosItem['est_complete']);
         $objResultat->bindParam(':id_liste', $id_liste, PDO::PARAM_INT);
         $objResultat->execute();
-
+ 
         // Redirection vers afficher.php après la création
         header("Location: afficher.php?id_liste=$id_liste");
         exit;
     }
 }
 ?>
-<?php 
+<?php
 $requeteSQL = "
-    SELECT listes.nom, listes.id, couleurs.hexadecimal 
+    SELECT listes.nom, listes.id, couleurs.hexadecimal
     FROM listes
     INNER JOIN couleurs ON listes.couleur_id = couleurs.id
 ";
 $objStat = $objPdo->prepare($requeteSQL);
 $objStat->execute();
 $arrListes = $objStat->fetchAll();
-
+ 
 $strRequeteItemsUrgentEcheance = 'SELECT items.id as id_item,
                             items.nom as nom_item,
                             items.echeance,
@@ -237,7 +237,7 @@ while ($ligne = $pdoResultatItemsUrgentEcheance->fetch()) {
                 <button type="submit" name="<?php echo ($strCodeOperation === 'creer') ? 'btn_creer' : 'btn_modifier'; ?>" class="btn__modifier">
                     <?php echo ($strCodeOperation === 'creer') ? 'Créer' : 'Enregistrer les modifications'; ?>
                 </button>
-
+ 
             </footer>
         </form>
  
