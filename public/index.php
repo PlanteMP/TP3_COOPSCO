@@ -112,21 +112,12 @@ if (isset($_GET['liste_id'])) {
                  style="background-color:#<?php echo ($liste['hexadecimal']); ?>; ">
             </div>
 
-<<<<<<< HEAD
 		<footer class="article__item__footer">
 			<div class="flex">
 				<a href="<?php echo $niveau; ?> items/afficher.php?id_liste=<?php echo $liste['id']; ?> ">
 			<p class="article__item__footer__titre" > <?php  echo $arrNombre['nombre']; ?> Items</p>
 			</a>
 			<div class="article__item__footer__titre2">
-=======
-            <footer class="article__item__footer">
-				<div class="flex">
-                    <a href="<?php echo $niveau; ?>items/afficher.php?id_liste=<?php echo $liste['id'] ?>">
-                <p class="article__item__footer__titre" > <?php  echo $arrNombre['nombre']; ?> Items</p>
-				</a>
-                <div class="article__item__footer__titre2">
->>>>>>> aa188bd0d971b834974ebfb2342a1f8bd4388d4d
 
 				<a class="article__item__header__edit" href="<?php echo $niveau; ?>listes/modifier.php?id_liste=<?php echo $liste['id']; ?>&code_operation=modifier"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none">
   <path d="M10.3407 17.7762L18.476 9.64085C17.1075 9.06911 15.8644 8.23422 14.8176 7.18354C13.7664 6.13642 12.9311 4.89303 12.3592 3.52397L4.22384 11.6593C3.58917 12.294 3.27128 12.6118 2.99849 12.9616C2.67663 13.3746 2.4004 13.8213 2.17462 14.2937C1.98432 14.6941 1.84243 15.1209 1.55864 15.9722L0.0604929 20.4634C-0.00845953 20.669 -0.0186896 20.8898 0.0309522 21.1009C0.080594 21.312 0.18814 21.5051 0.341501 21.6585C0.494863 21.8119 0.68796 21.9194 0.899089 21.969C1.11022 22.0187 1.33101 22.0085 1.53664 21.9395L6.02778 20.4414C6.88025 20.1576 7.30593 20.0157 7.70632 19.8254C8.18077 19.5995 8.62479 19.3249 9.03837 19.0015C9.38816 18.7287 9.70605 18.4108 10.3407 17.7762ZM20.7332 7.38373C21.5443 6.57258 22 5.47243 22 4.32529C22 3.17815 21.5443 2.078 20.7332 1.26685C19.922 0.455699 18.8218 8.54684e-09 17.6747 0C16.5276 -8.54684e-09 15.4274 0.455699 14.6163 1.26685L13.6406 2.24251L13.6824 2.36461C14.1631 3.74042 14.9499 4.9891 15.9835 6.01648C17.0416 7.08104 18.334 7.88338 19.7575 8.35939L20.7332 7.38373Z" fill="black"/>
